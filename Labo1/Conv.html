@@ -5,7 +5,10 @@
     <title>Conversion float</title>
   </head>
   <script type="text/javascript">
+    //fonction pour eviter de toujours ecrire doc.getElementById
     var $ = function( id ) { return document.getElementById( id ); };
+
+    //conversion automatique
     function dec2bin(dec,bits)
     {
       var bin=$('bin');
@@ -21,6 +24,7 @@
       var bin=$('bin');
         dec.value=parseInt(bin.value,2);
     }
+
 
   </script>
   <body>

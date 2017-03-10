@@ -4,11 +4,13 @@ var float = {
   Attributs de notre objet  
   *************************************/
   x: 0,       //nombre floatant
-  m: [],      // tableau pour la mantisse
-  mSize:23,
-  e: 0,       // exposant EMax
+  mBin: [],      // tableau pour la mantisse en binaire
+  mReel: 0,      //mantisse reel
+  mSize:23,   //nb de bit pour la mantisse
+  eDecalage: 0,   //décalage
+  eDecimal:0,   // exposant EMax
   eSize:0,    // taille de l'exposant
-  eBin: [],   // tableau pour l'exposant
+  eBin:0,   // exposant en binaire
   s: 0,       //signe de bits
   nbBits: 32,  //nmombre de bit sur lequel on encode l'information
  
@@ -33,9 +35,9 @@ var float = {
   interchangeFormat : function(){
     for (var i = 0; i < this.IEEEFormatBits.length; i++) {
       if(this.IEEEFormatBits[i].bits == this.nbBits){
-        this.e = this.IEEEFormatBits[i].eMax;
+        this.eDecimal = this.eDecalage = this.IEEEFormatBits[i].eMax;
         this.eSize = this.IEEEFormatBits[i].exponant;
-        console.log("EMAX :"+this.e);
+        console.log("EMAX :"+this.eDecimal);
         console.log("Exposant size :"+this.eSize);
         return 0;
       }
@@ -46,8 +48,8 @@ var float = {
     pour éviter de le recalculer si l'utilisateur nous le demande
     */
     this.eSize = Math.round(4 * Math.log(this.nbBits) / Math.log(2) - 13);
-    this.e = (Math.pow(2,this.eSize)/2)-1;
-    this.IEEEFormatBits.push({bits: this.nbBits, exponant: this.eSize, eMax: this.e });
+    this.eDecimal = (Math.pow(2,this.eSize)/2)-1;
+    this.IEEEFormatBits.push({bits: this.nbBits, exponant: this.eSize, eMax: this.eDecimal });
     return 0;
   },
   
@@ -77,32 +79,33 @@ var float = {
     if(this.x < 1){
       while (this.x<1){
         this.x*=2; 
-        this.e--;
-        console.log("x < 1 donc e = "+ this.e +" et x = "+this.x)
+        this.eDecimal--;
+        console.log("x < 1 donc e = "+ this.eDecimal +" et x = "+this.x)
       }
     }else if(this.x>=2){
       while(this.x>=2){
         this.x/=2;
-        this.e++;
-        console.log("x >= 2 donc e = "+ this.e +" et x = "+this.x)
+        this.eDecimal++;
+        console.log("x >= 2 donc e = "+ this.eDecimal +" et x = "+this.x)
       }
     }
     this.convertExposantToBin();
   },
   
   convertExposantToBin : function(){
-    this.eBin = this.e.toString(2).split('');
+    this.eBin = this.eDecimal.toString(2);
     console.log("exposant dec to bin (taille "+ this.eSize+") -> "+ this.eBin);
   },
   
  makeArrayMantisseEmpty : function(){
-   if(this.m.length > 0){this.m = [];}
+   if(this.mBin.length > 0){this.mBin = [];}
  },
   
  computeMantisse : function(){
     //on vérifie si le tableau m[] est vide ? 
     this.makeArrayMantisseEmpty(this.m);
     console.log("IN : computeMantisse");
+    this.mReel = this.x;
     this.x--;
     console.log("x = "+this.x);
     console.log("Taille de la mantisse = "+this.mSize);
@@ -112,39 +115,51 @@ var float = {
         this.x *= 2;
         console.log(this.x+" * 2 = "+ this.x);
         if(this.x < 1){
-          this.m.push(0);
-          console.log("m["+i+"] ajout -> "+this.m[i]);
-          console.log(this.m);
+          this.mBin.push(0);
+          console.log("m["+i+"] ajout -> "+this.mBin[i]);
+          console.log(this.mBin);
         }else{
-          this.m.push(1);
-          console.log("m["+i+"] ajout -> "+this.m[i]);
-          console.log(this.m);
+          this.mBin.push(1);
+          console.log("m["+i+"] ajout -> "+this.mBin[i]);
+          console.log(this.mBin);
           this.x--;
         }
     }
+
   },
   
   casSpecialZero : function(){
     console.log("traiter le cas 0");
     this.makeArrayMantisseEmpty();
-    this.m = Array(this.mSize).fill(0);    //rempli le tableau de 0
+    this.eBin = 0;
+    this.mReel = 0;
+    this.mBin = Array(this.mSize).fill(0);    //rempli le tableau de 0
   },
   
   /*input*/
   decTo: function(x, nbBits){ //nombre de bits que l'on veut
     this.x = x;
+    this.computeSigne();
     this.setNbits(nbBits);
     if(this.x == 0 || this.x == -0){
       this.casSpecialZero();
       return 1;
     }
-    this.computeSigne();
+
     this.computeExposant();
     this.computeMantisse();
   },
   
   print: function(){
-      $('bin').value = this.s+this.eBin.join('')+this.m.join('');
+      $('binaire').value = this.s+this.eBin+this.mBin.join('');
+      $('signe').value = (this.s == 1) ? 'négatif' : "positif";   
+      $('mSize').value = this.mSize;
+      $('mReel').value = this.mReel; 
+      $('mBin').value = this.mBin.join('');
+      $('eDec').value = this.eDecimal;
+      $('eBin').value = this.eBin;
+      $('nbBitsExponent').value = this.eSize;
+      $('decalage').value = this.eDecalage;
   } 
 };
 
@@ -157,8 +172,7 @@ var $ = function(id){
 
 function decToBin(){
   var dec = $('decimal');
-  var nbBit = $('nbBits');
-  console.log("hlloe");
-/*  float.decTo(dec.value, nbBit.value);
-  float.print();*/
+  var nbBits = $('nbBits');
+  float.decTo(dec.value, nbBits.value);
+  float.print();
 }; 

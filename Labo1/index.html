@@ -1,0 +1,138 @@
+
+<html lang="ch-fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Algo-Num | Team 4</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Team 4</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Labo 1 <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">labo 2</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <br/>
+    <div class="container">
+  
+      <div class="row">
+        <div class="col">
+          <h1 class = "display-4">Labo 1 : codage des nombres</h1>
+          <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus iusto tenetur voluptas perspiciatis et, aspernatur, corporis assumenda, sed facere nisi illo quas ab tempore sequi harum aut. Magnam, ex laborum.</p>
+        </div>
+       </div>
+       <!--Gestion du formulaire -->
+       <div class="form-group row">
+         <label for="nbBits" class="col-2 col-form-label">Nombre de bits</label>
+         <div class="col-10">
+           <input class="form-control" type="number" id="nbBits" placeholder="ex.: 32" required="required">
+         </div>
+       </div>
+       
+       <div class="form-group row">
+         <label for="decimal" class="col-2 col-form-label">Nombre décimal</label>
+         <div class="col-10">
+           <input class="form-control" type="number" id="decimal" placeholder="ex : 12.4" required="required">
+           <br/>
+           <button onclick="decToBin()" type="submit" class="btn btn-outline-primary btn-lg btn-block">Compute</button>
+         </div>
+          
+       </div>
+       
+       <div class="form-group row">
+         <label for="binaire" class="col-2 col-form-label">Nombre binaire</label>
+         <div class="col-10">
+           <input class="form-control" type="number" id="binaire" placeholder="" value="" disabled>
+         </div>
+       </div>
+       
+       <div class="form-group row">
+         <label for="signe" class="col-2 col-form-label">Signe</label>
+         <div class="col-10">
+           <input class="form-control" type="text" id="signe" disabled>
+         </div>
+       </div>
+       
+       <div class="form-group row">
+         <label for="mSize" class="col-2 col-form-label">nb de bits pour la mantisse</label>
+         <div class="col-10">
+           <input class="form-control" type="text" id="mSize" disabled>
+         </div>
+       </div>
+       
+       <div class="form-group row">
+         <label for="mReel" class="col-2 col-form-label">Mantisse en réel</label>
+         <div class="col-10">
+           <input class="form-control" type="text" id="mReel" disabled>
+         </div>
+       </div>
+       
+       <div class="form-group row">
+         <label for="mBin" class="col-2 col-form-label">Mantisse en binaire</label>
+         <div class="col-10">
+           <input class="form-control" type="text" id="mBin" disabled>
+         </div>
+       </div>
+       
+       <div class="form-group row">
+         <label for="eDec" class="col-2 col-form-label">Valeur en entier de l'exposant</label>
+         <div class="col-10">
+           <input class="form-control" type="text" id="eDec" disabled>
+         </div>
+       </div>
+       
+       <div class="form-group row">
+         <label for="eBin" class="col-2 col-form-label">Exposant en binaire</label>
+         <div class="col-10">
+           <input class="form-control" type="text" id="eBin" disabled>
+         </div>
+       </div>
+       
+       <div class="form-group row">
+         <label for="nbBitsExponent" class="col-2 col-form-label">Nombre de bit pour l'exposant</label>
+         <div class="col-10">
+           <input class="form-control" type="text" id="nbBitsExponent" disabled>
+         </div>
+       </div>
+       
+       <div class="form-group row">
+         <label for="decalage" class="col-2 col-form-label">décalage</label>
+         <div class="col-10">
+           <input class="form-control" type="text" id="decalage" disabled>
+         </div>
+       </div>
+      
+       
+   </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <script src="./assets/js/script.js" charset="utf-8"></script>
+</body></html>

@@ -8,7 +8,7 @@
     //fonction pour eviter de toujours ecrire doc.getElementById
     var $ = function( id ) { return document.getElementById( id ); };
 
-    //conversion automatique 
+    /***********************conversion automatique*****************************/
     function dec2bin(dec,bits)
     {
       var bin=$('bin');
@@ -24,8 +24,39 @@
       var bin=$('bin');
         dec.value=parseInt(bin.value,2);
     }
-
-
+    /*************************conversion manuelle***************************/
+    //binaire -> decimale
+    function mBin2Dec(bin)
+    {
+    // tableau à 2 dimensions: un tableau avec les entiers, un tableau avec les décimales
+    //separation des 2 parties
+    var nombre=bin.split(".");
+    //dans nombre[0], partie entiere
+    var lInt=nombre[0].length;
+    //dans nombre[1], partie décimale
+    var lDeci=nombre[1].length;
+    var result=0;
+    //calcul de la partie entière
+    //etape 1: separer les cases
+    var arrayInt=nombre[0].split("");
+      for (var i = 0; i <lInt ; i++) {
+        //va parcourir les cases du tableau
+        for (var j = lInt-1; j >= 0; j--) {
+          //va additionner avec la puissance de 2 correspondante
+          result+=(nombre[0][i]*(Math.pow(2,j)));
+        }
+      }
+      //calcul de la partie decimale
+      var arrayDec=nombre[1].split("");
+        for (var i = 0; i <lDeci ; i++) {
+          //va parcourir les cases du tableau
+          for (var j = -1; j >-lDeci; j--) {
+            //va additionner avec la puissance de 2 correspondante
+            result+=(nombre[1][i]*(Math.pow(2,j)));
+          }
+        }
+      console.log(result);
+    }
   </script>
   <body>
     nombre en decimale: <input id="dec" value="" ><br/>
@@ -33,6 +64,6 @@
     nombre de bits voulu: <input  id="bits" value=""><br/>
     <button type="button" name="button" value="convert" onclick="dec2bin($('dec').value,$('bits').value)">Dec2Bin</button>
     <button type="button" name="button2" value="convert2" onclick="bin2dec($('bin').value,$('bits').value)">Bin2Dec</button>
-
+    <button type="button" name="button3" value ="m_bin2dec" onclick="mBin2Dec($('bin').value)">m_bin2dec</button>
   </body>
 </html>

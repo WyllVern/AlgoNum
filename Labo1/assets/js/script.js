@@ -35,6 +35,7 @@ var float = {
    interchangeFormat() va nous permettre
    de vérifié si le nombre de bits existe déjà selon la norme IEEE 754-1985
    et de set la taille de l'exposant et son EMax
+    source : https://en.wikipedia.org/wiki/IEEE_floating_point#Interchange_formats
   **********************************************************************************/
   interchangeFormat : function(){
     for (var i = 0; i < this.IEEEFormatBits.length; i++) {
@@ -53,6 +54,8 @@ var float = {
     */
     this.eSize = Math.round(4 * Math.log(this.nbBits) / Math.log(2) - 13);
     this.eDecimal = (Math.pow(2,this.eSize)/2)-1;
+    console.log(this.eSize + " "+this.eDecimal);
+
     this.IEEEFormatBits.push({bits: this.nbBits, exponant: this.eSize, eMax: this.eDecimal });
     return 0;
   },
@@ -98,6 +101,10 @@ var float = {
   
   convertExposantToBin : function(){
     this.eBin = this.eDecimal.toString(2);
+    while(this.eBin.length != this.eSize){
+      this.eBin = '0'+this.eBin;
+    }
+    alert(this.eDecimal + " "+ this.eSize);
     console.log("exposant dec to bin (taille "+ this.eSize+") -> "+ this.eBin);
   },
   
@@ -146,6 +153,7 @@ var float = {
     this.computeSigne();
     this.setNbits(nbBits);
     if(this.xDec == 0 || this.xDec == -0){
+      this.computeSigne();
       this.casSpecialZero();
       return 1;
     }
@@ -184,6 +192,7 @@ var float = {
      }
     console.log("e' = "+e); 
     let a=0;
+    this.s =  this.xBin[this.xBin.length-1];
     a = (-2*this.s+1) * mReal * Math.pow(2, e-this.eDecalage);
     console.log(a);
     $('decimal').value = a;
@@ -218,6 +227,8 @@ function decToBin(){
     var nbBits = $('nbBits');
     float.decToBin(xDec.value, nbBits.value);
     float.print();
+    alert($('binaire').value.length);
+    
   }
 }; 
 

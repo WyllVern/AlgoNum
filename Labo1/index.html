@@ -1,4 +1,3 @@
-
 <html lang="ch-fr">
 <head>
     <meta charset="utf-8">
@@ -47,24 +46,24 @@
        <div class="form-group row">
          <label for="nbBits" class="col-2 col-form-label">Nombre de bits</label>
          <div class="col-10">
-           <input class="form-control" type="number" id="nbBits" placeholder="ex.: 32" required="required">
+           <input class="form-control"  onchange="checkNbBits(this)" type="number" id="nbBits" placeholder="ex.: 32" min=12 max=300 required>
          </div>
        </div>
        
        <div class="form-group row">
          <label for="decimal" class="col-2 col-form-label">Nombre décimal</label>
          <div class="col-10">
-           <input class="form-control" type="number" id="decimal" placeholder="ex : 12.4" required="required">
+           <input class="form-control" onchange="decToBin()" type="number" id="decimal" placeholder="ex : 12.4" required>
          </div>
        </div>
        
        <div class="form-group row">
          <label for="binaire" class="col-2 col-form-label">Nombre binaire</label>
          <div class="col-10">
-           <input class="form-control" type="number" id="binaire" placeholder="" value="" disabled>
+           <input class="form-control" type="text" id="binaire" onchange="binToDec()" placeholder="" value="">
            <br/>
            <button onclick="decToBin()" type="submit" class="btn btn-outline-primary btn-lg btn-block">Compute</button>
-           <button id="showDetail" onclick="showDetail()" type="submit" class="btn btn-outline-secondary btn-lg btn-block">show details</button>
+           <button id="btnDetail" onclick="showDetail()" type="submit" class="btn btn-outline-secondary btn-lg btn-block">Cacher les détails</button>
          </div>
        </div>
         
@@ -128,6 +127,10 @@
        </div>
    </div><!-- /.container -->
 
+   <footer class="footer">
+           <br>
+           <p class="text-muted" style="text-align : center">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
+   </footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -141,13 +144,13 @@
       function showDetail(){
         if(hide){
           $('detail').style.visibility = "hidden";
-          $('showDetail').innerHTML = "show details";
+          $('btnDetail').innerHTML = "Afficher détails";
  
         }else{
           $('detail').style.visibility = "visible";
-          $('showDetail').innerHTML = "hide details";
+          $('btnDetail').innerHTML = "cacher détails";
         }
         hide = !hide;
-      }
+      };
     </script>
 </body></html>

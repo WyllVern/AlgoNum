@@ -3,14 +3,18 @@ var float = {
   /*************************************
   Attributs de notre objet  
   *************************************/
-  x: 0,       //nombre floatant
+  xDec: 0,       //nombre floatant
+  xBin: 0,      //nombre binaire
+  
   mBin: [],      // tableau pour la mantisse en binaire
   mReel: 0,      //mantisse reel
-  mSize:23,   //nb de bit pour la mantisse
+  mSize:23,      //nb de bit pour la mantisse
+  
   eDecalage: 0,   //décalage
   eDecimal:0,   // exposant EMax
   eSize:0,    // taille de l'exposant
   eBin:0,   // exposant en binaire
+  
   s: 0,       //signe de bits
   nbBits: 32,  //nmombre de bit sur lequel on encode l'information
  
@@ -64,9 +68,9 @@ var float = {
   permet de trouver le signe de bit
   *********************************************************/
   computeSigne : function(){
-     if(this.x < 0){
+     if(this.xDec < 0){
        this.s=1;
-       this.x *= -1;
+       this.xDec *= -1;
      }else{
        this.s=0;
      }
@@ -76,17 +80,17 @@ var float = {
   va calculer l'exposant en décimal
  *******************************************************/
   computeExposant : function(){
-    if(this.x < 1){
-      while (this.x<1){
-        this.x*=2; 
+    if(this.xDec < 1){
+      while (this.xDec<1){
+        this.xDec*=2; 
         this.eDecimal--;
-        console.log("x < 1 donc e = "+ this.eDecimal +" et x = "+this.x)
+        console.log("x < 1 donc e = "+ this.eDecimal +" et x = "+this.xDec)
       }
-    }else if(this.x>=2){
-      while(this.x>=2){
-        this.x/=2;
+    }else if(this.xDec>=2){
+      while(this.xDec>=2){
+        this.xDec/=2;
         this.eDecimal++;
-        console.log("x >= 2 donc e = "+ this.eDecimal +" et x = "+this.x)
+        console.log("x >= 2 donc e = "+ this.eDecimal +" et x = "+this.xDec)
       }
     }
     this.convertExposantToBin();
@@ -105,16 +109,16 @@ var float = {
     //on vérifie si le tableau m[] est vide ? 
     this.makeArrayMantisseEmpty(this.m);
     console.log("IN : computeMantisse");
-    this.mReel = this.x;
-    this.x--;
-    console.log("x = "+this.x);
+    this.mReel = this.xDec;
+    this.xDec--;
+    console.log("x = "+this.xDec);
     console.log("Taille de la mantisse = "+this.mSize);
     for (var i = 0; i < this.mSize; i++) {
         console.log("----------------------------------------");
-        console.log("x = "+ this.x);
-        this.x *= 2;
-        console.log(this.x+" * 2 = "+ this.x);
-        if(this.x < 1){
+        console.log("x = "+ this.xDec);
+        this.xDec *= 2;
+        console.log(this.xDec+" * 2 = "+ this.xDec);
+        if(this.xDec < 1){
           this.mBin.push(0);
           console.log("m["+i+"] ajout -> "+this.mBin[i]);
           console.log(this.mBin);
@@ -122,7 +126,7 @@ var float = {
           this.mBin.push(1);
           console.log("m["+i+"] ajout -> "+this.mBin[i]);
           console.log(this.mBin);
-          this.x--;
+          this.xDec--;
         }
     }
 
@@ -137,17 +141,52 @@ var float = {
   },
   
   /*input*/
-  decTo: function(x, nbBits){ //nombre de bits que l'on veut
-    this.x = x;
+  decToBin: function(x, nbBits){ //nombre de bits que l'on veut
+    this.xDec = x;
     this.computeSigne();
     this.setNbits(nbBits);
-    if(this.x == 0 || this.x == -0){
+    if(this.xDec == 0 || this.xDec == -0){
       this.casSpecialZero();
       return 1;
     }
 
     this.computeExposant();
     this.computeMantisse();
+  },
+  
+  binToDec: function(x, nbBits){
+    this.xBin = x.toString().split("").reverse();
+    this.setNbits(nbBits);
+    let mReal = 0;
+    console.log(this.mSize);
+    for (var i = 0; i < this.mSize; i++) {
+      if(this.xBin[i] == 1){
+          console.log(mReal+" + 2^"+i);
+          mReal+=Math.pow(2, i);
+      }
+    }
+     
+     mReal+=Math.pow(2, this.mSize);
+     console.log(mReal+"/2^"+this.mSize);
+     mReal /= Math.pow(2, this.mSize);
+     console.log(mReal);
+     
+     /*calcule de l'exposant*/
+     console.log("Calcule de l'exposant");
+     let e = 0;
+     let j = 0;
+     for (var i = this.mSize; i < this.mSize+this.eSize; i++) {
+       if(this.xBin[i] == 1){
+         console.log("e = "+e+" | e += 2^"+j);
+         e+=Math.pow(2, j);
+       }
+       j++;
+     }
+    console.log("e' = "+e); 
+    let a=0;
+    a = (-2*this.s+1) * mReal * Math.pow(2, e-this.eDecalage);
+    console.log(a);
+    $('decimal').value = a;
   },
   
   print: function(){
@@ -171,8 +210,27 @@ var $ = function(id){
 };
 
 function decToBin(){
-  var dec = $('decimal');
-  var nbBits = $('nbBits');
-  float.decTo(dec.value, nbBits.value);
-  float.print();
+  if(this.checkNbBits($('nbBits'))){
+    //traiter le 
+    alert("Trop grand ou trop petit");
+  }else{
+    var xDec = $('decimal');
+    var nbBits = $('nbBits');
+    float.decToBin(xDec.value, nbBits.value);
+    float.print();
+  }
 }; 
+
+function binToDec(){
+    var xBin = $('binaire');
+    var nbBits = $('nbBits');
+    float.binToDec(xBin.value, nbBits.value);
+    //float.print();
+}; 
+
+function checkNbBits(id){
+  if(id.value < 12 || id.value > 230 || id.value == ""){
+    return true;
+  }
+  return false;
+};

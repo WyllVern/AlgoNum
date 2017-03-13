@@ -101,15 +101,39 @@ var float = {
   
   convertExposantToBin : function(){
     this.eBin = this.eDecimal.toString(2);
+    /*
+      va nous permettre d'avoir le bon nombre de 
+      ex (127).toString(2) --> 1111111 ->(7) avec le while on va rajouter
+      le bit manquant que la méthode toString ignore. donc res = 01111111
+    */
     while(this.eBin.length != this.eSize){
       this.eBin = '0'+this.eBin;
     }
-    alert(this.eDecimal + " "+ this.eSize);
     console.log("exposant dec to bin (taille "+ this.eSize+") -> "+ this.eBin);
   },
   
  makeArrayMantisseEmpty : function(){
    if(this.mBin.length > 0){this.mBin = [];}
+ },
+ 
+ /*****************************************************************
+ Gestion des différents cas Inifiny et NaN
+ https://fr.wikipedia.org/wiki/IEEE_754#Format_simple_pr.C3.A9cision_.2832_bits.29
+******************************************************************/
+ checkCas : function(){
+   
+   let eBin = this.eBin.split("");
+   let casInifni = Array(this.eSize).fill(1);
+   let casNaN;
+   /*on traite le cas infini*/
+   for (var i = 0; i < eBin.length; i++) {
+     if(eBin[i] != casInifni[i]){ // cas infini
+       return false; // pas infini
+     }
+   }
+   $('decimal').value = "";
+   $('decimal').placeholder="Inifni OR NaN";   
+   return true;
  },
   
  computeMantisse : function(){
@@ -144,7 +168,10 @@ var float = {
     this.makeArrayMantisseEmpty();
     this.eBin = 0;
     this.mReel = 0;
-    this.mBin = Array(this.mSize).fill(0);    //rempli le tableau de 0
+    this.mBin = Array(this.nbBits).fill(0);    //rempli le tableau de 0
+    this.xBin = [];
+    this.xBin = Array(this.nbBits).fill(0);
+    $('binaire').value = this.xBin.join('');
   },
   
   /*input*/
@@ -160,10 +187,27 @@ var float = {
 
     this.computeExposant();
     this.computeMantisse();
+
   },
   
   binToDec: function(x, nbBits){
-    this.xBin = x.toString().split("").reverse();
+    this.xBin = x.toString().split("");
+    
+   /**********************************************************************
+    met a jour le nombre binaire si il ne respecte pas le nombre de bits 
+   **********************************************************************/
+    while(this.xBin.length != this.nbBits){ 
+      if(this.xBin.length < this.nbBits){
+        this.xBin.push('0');  
+      }else{
+         this.xBin.pop();  
+      }
+    }
+
+    $('binaire').value = this.xBin.join('');
+
+    this.xBin.reverse();
+    
     this.setNbits(nbBits);
     let mReal = 0;
     console.log(this.mSize);
@@ -177,25 +221,46 @@ var float = {
      mReal+=Math.pow(2, this.mSize);
      console.log(mReal+"/2^"+this.mSize);
      mReal /= Math.pow(2, this.mSize);
+     this.mReal = mReal;
      console.log(mReal);
      
      /*calcule de l'exposant*/
      console.log("Calcule de l'exposant");
      let e = 0;
      let j = 0;
+     let eBin=[];
      for (var i = this.mSize; i < this.mSize+this.eSize; i++) {
        if(this.xBin[i] == 1){
+         eBin.push(1);
          console.log("e = "+e+" | e += 2^"+j);
          e+=Math.pow(2, j);
+       }else{
+         eBin.push(0);
        }
        j++;
      }
+     
+     this.eBin = eBin.reverse().join('');
+     alert(this.eBin);
+     
+     if(this.checkCas()){
+       alert("lasflksadjf");
+       return 0;
+     }
+     alert("STOP");
+     
     console.log("e' = "+e); 
     let a=0;
     this.s =  this.xBin[this.xBin.length-1];
     a = (-2*this.s+1) * mReal * Math.pow(2, e-this.eDecalage);
     console.log(a);
+    this.xDec = a;
     $('decimal').value = a;
+    $('signe').value = (this.s == 1) ? 'négatif' : 'positif'; 
+    $('mSize').value = this.mSize;
+    $('mReel').value = mReal;
+    $('nbBitsExponent').value = this.eSize;
+    $('decalage').value = this.eDecalage;
   },
   
   print: function(){
@@ -221,22 +286,24 @@ var $ = function(id){
 function decToBin(){
   if(this.checkNbBits($('nbBits'))){
     //traiter le 
-    alert("Trop grand ou trop petit");
+    alert("Entrez une valeur entre 12 et 230");
   }else{
     var xDec = $('decimal');
     var nbBits = $('nbBits');
     float.decToBin(xDec.value, nbBits.value);
-    float.print();
-    alert($('binaire').value.length);
-    
+    float.checkCas();
+    float.print();    
   }
 }; 
 
 function binToDec(){
     var xBin = $('binaire');
     var nbBits = $('nbBits');
+    if(xBin.value == 0){
+      float.casSpecialZero();
+      return 0;
+    }
     float.binToDec(xBin.value, nbBits.value);
-    //float.print();
 }; 
 
 function checkNbBits(id){

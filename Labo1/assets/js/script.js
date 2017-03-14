@@ -1,3 +1,8 @@
+/*
+  Team 4 <3
+  Authors : Dany Chea | Sylvain Renaud | Johnny Da Costa
+*/
+
 var float = {
   
   /*************************************

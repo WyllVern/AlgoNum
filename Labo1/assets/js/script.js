@@ -119,9 +119,7 @@ var float = {
  https://fr.wikipedia.org/wiki/IEEE_754#Format_simple_pr.C3.A9cision_.2832_bits.29
 ******************************************************************/
  checkCas : function(){
-   alert("checkCAs");
    let eBin = this.eBin.split("");
-   alert(eBin);
    let casInifni = Array(this.eSize).fill(1);
    let casNaN;
    /*on traite le cas infini*/
@@ -200,7 +198,6 @@ var float = {
     
     /*on check le cas 0 et -0*/
     if(tmpX == 0 ||  tmpX.split("").reverse().join("") == 1){
-      alert("traite le cas 0");
       this.casSpecialZero();
       return 0;
     }
@@ -236,7 +233,6 @@ var float = {
      
    
      this.eBin = eBin.reverse().join('');
-     alert("a : "+this.eBin+ "   b: "+eBin);
      if(this.checkCas()){
        return 0;
      }

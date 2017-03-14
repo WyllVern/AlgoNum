@@ -42,8 +42,6 @@ var float = {
       if(this.IEEEFormatBits[i].bits == this.nbBits){
         this.eDecimal = this.eDecalage = this.IEEEFormatBits[i].eMax;
         this.eSize = this.IEEEFormatBits[i].exponant;
-        console.log("EMAX :"+this.eDecimal);
-        console.log("Exposant size :"+this.eSize);
         return 0;
       }
     }
@@ -87,13 +85,11 @@ var float = {
       while (this.xDec<1){
         this.xDec*=2; 
         this.eDecimal--;
-        console.log("x < 1 donc e = "+ this.eDecimal +" et x = "+this.xDec)
       }
     }else if(this.xDec>=2){
       while(this.xDec>=2){
         this.xDec/=2;
         this.eDecimal++;
-        console.log("x >= 2 donc e = "+ this.eDecimal +" et x = "+this.xDec)
       }
     }
     this.convertExposantToBin();
@@ -109,7 +105,6 @@ var float = {
     while(this.eBin.length != this.eSize){
       this.eBin = '0'+this.eBin;
     }
-    console.log("exposant dec to bin (taille "+ this.eSize+") -> "+ this.eBin);
   },
   
  makeArrayMantisseEmpty : function(){
@@ -139,24 +134,14 @@ var float = {
  computeMantisse : function(){
     //on vérifie si le tableau m[] est vide ? 
     this.makeArrayMantisseEmpty(this.m);
-    console.log("IN : computeMantisse");
     this.mReel = this.xDec;
     this.xDec--;
-    console.log("x = "+this.xDec);
-    console.log("Taille de la mantisse = "+this.mSize);
     for (var i = 0; i < this.mSize; i++) {
-        console.log("----------------------------------------");
-        console.log("x = "+ this.xDec);
         this.xDec *= 2;
-        console.log(this.xDec+" * 2 = "+ this.xDec);
         if(this.xDec < 1){
           this.mBin.push(0);
-          console.log("m["+i+"] ajout -> "+this.mBin[i]);
-          console.log(this.mBin);
         }else{
           this.mBin.push(1);
-          console.log("m["+i+"] ajout -> "+this.mBin[i]);
-          console.log(this.mBin);
           this.xDec--;
         }
     }
@@ -164,7 +149,6 @@ var float = {
   },
   
   casSpecialZero : function(){
-    console.log("traiter le cas 0");
     this.makeArrayMantisseEmpty();
     this.eBin = 0;
     this.mReel = 0;

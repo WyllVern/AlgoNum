@@ -27,19 +27,21 @@
             <a class="nav-link" href="#">Labo 1 <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">labo 2</a>
+            <a class="nav-link disabled" href="#">Labo 2</a>
           </li>
         </ul>
       </div>
     </nav>
     <br/>
     <div class="container">
-  
+
       <div class="row">
         <div class="col">
           <h1 class = "display-4">Labo 1 : codage des nombres</h1>
-          <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus iusto tenetur voluptas perspiciatis et, aspernatur, corporis assumenda, sed facere nisi illo quas ab tempore sequi harum aut. Magnam, ex laborum.</p>
+          <p class="lead">Convertisseur binaire vers décimal et inversément</p>
+          <p>Choisissez simplement le nombre de bits et un nombre décimal puis cliquez sur compute pour lancer l'encodage.</br>
+             Vous pouvez également choisir d'entrer un nombre binaire (pensez à préciser le nombre de bits) et un nombre décimal en sortira décodé.
+           </p>
         </div>
        </div>
        <!--Gestion du formulaire -->
@@ -49,14 +51,14 @@
            <input class="form-control"  onchange="checkNbBits(this)" type="number" id="nbBits" placeholder="ex.: 32" min=12 max=300 required>
          </div>
        </div>
-       
+
        <div class="form-group row">
          <label for="decimal" class="col-2 col-form-label">Nombre décimal</label>
          <div class="col-10">
            <input class="form-control" onchange="decToBin()" type="number" id="decimal" placeholder="ex : 12.4" required>
          </div>
        </div>
-       
+
        <div class="form-group row">
          <label for="binaire" class="col-2 col-form-label">Nombre binaire</label>
          <div class="col-10">
@@ -66,7 +68,7 @@
            <button id="btnDetail" onclick="showDetail()" type="submit" class="btn btn-outline-secondary btn-lg btn-block">Cacher les détails</button>
          </div>
        </div>
-        
+
        <div id="detail">
 
          <div class="form-group row">
@@ -75,51 +77,51 @@
              <input class="form-control" type="text" id="signe" disabled>
            </div>
          </div>
-         
+
          <div class="form-group row">
-           <label for="mSize" class="col-2 col-form-label">nb de bits pour la mantisse</label>
+           <label for="mSize" class="col-2 col-form-label">Nombre de bits pour la mantisse</label>
            <div class="col-10">
              <input class="form-control" type="text" id="mSize" disabled>
            </div>
          </div>
-         
+
          <div class="form-group row">
            <label for="mReel" class="col-2 col-form-label">Mantisse en réel</label>
            <div class="col-10">
              <input class="form-control" type="text" id="mReel" disabled>
            </div>
          </div>
-         
+
          <div class="form-group row">
            <label for="mBin" class="col-2 col-form-label">Mantisse en binaire</label>
            <div class="col-10">
              <input class="form-control" type="text" id="mBin" disabled>
            </div>
          </div>
-         
+
          <div class="form-group row">
            <label for="eDec" class="col-2 col-form-label">Valeur en entier de l'exposant</label>
            <div class="col-10">
              <input class="form-control" type="text" id="eDec" disabled>
            </div>
          </div>
-         
+
          <div class="form-group row">
            <label for="eBin" class="col-2 col-form-label">Exposant en binaire</label>
            <div class="col-10">
              <input class="form-control" type="text" id="eBin" disabled>
            </div>
          </div>
-         
+
          <div class="form-group row">
-           <label for="nbBitsExponent" class="col-2 col-form-label">Nombre de bit pour l'exposant</label>
+           <label for="nbBitsExponent" class="col-2 col-form-label">Nombre de bits pour l'exposant</label>
            <div class="col-10">
              <input class="form-control" type="text" id="nbBitsExponent" disabled>
            </div>
          </div>
-         
+
          <div class="form-group row">
-           <label for="decalage" class="col-2 col-form-label">décalage</label>
+           <label for="decalage" class="col-2 col-form-label">Décalage</label>
            <div class="col-10">
              <input class="form-control" type="text" id="decalage" disabled>
            </div>
@@ -129,7 +131,7 @@
 
    <footer class="footer">
            <br>
-           <p class="text-muted" style="text-align : center">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
+           <p class="text-muted" style="text-align : center">Algorithmes numériques, Groupe 4</br>Dany Chea, Johnny Da Costa, Sylvain Renaud.</p>
    </footer>
 
     <!-- Bootstrap core JavaScript
@@ -145,10 +147,10 @@
         if(hide){
           $('detail').style.visibility = "hidden";
           $('btnDetail').innerHTML = "Afficher détails";
- 
+
         }else{
           $('detail').style.visibility = "visible";
-          $('btnDetail').innerHTML = "cacher détails";
+          $('btnDetail').innerHTML = "Cacher détails";
         }
         hide = !hide;
       };

@@ -52,8 +52,6 @@ var float = {
     */
     this.eSize = Math.round(4 * Math.log(this.nbBits) / Math.log(2) - 13);
     this.eDecimal = (Math.pow(2,this.eSize)/2)-1;
-    console.log(this.eSize + " "+this.eDecimal);
-
     this.IEEEFormatBits.push({bits: this.nbBits, exponant: this.eSize, eMax: this.eDecimal });
     return 0;
   },
@@ -150,15 +148,18 @@ var float = {
   
   casSpecialZero : function(){
     this.makeArrayMantisseEmpty();
+    this.xBin = Array(this.nbBits).fill(0);
+    this.xDec = 0;
     this.eBin = 0;
     this.mReel = 0;
     this.mBin = Array(this.nbBits).fill(0);    //rempli le tableau de 0
-    this.xBin = [];
-    this.xBin = Array(this.nbBits).fill(0);
+
+
     $('binaire').value = this.xBin.join('');
+    $('decimal').value = this.xDec;
   },
   
-  /*input*/
+  /* decimal to Binaire */
   decToBin: function(x, nbBits){ //nombre de bits que l'on veut
     this.xDec = x;
     this.computeSigne();
@@ -166,7 +167,7 @@ var float = {
     if(this.xDec == 0 || this.xDec == -0){
       this.computeSigne();
       this.casSpecialZero();
-      return 1;
+      return 0;
     }
 
     this.computeExposant();
@@ -174,10 +175,10 @@ var float = {
 
   },
   
+  /* Binaire -> Decimal */
   binToDec: function(x, nbBits){
     this.xBin = x.toString().split("");
-    
-   /**********************************************************************
+      /**********************************************************************
     met a jour le nombre binaire si il ne respecte pas le nombre de bits 
    **********************************************************************/
     while(this.xBin.length != this.nbBits){ 
@@ -187,36 +188,37 @@ var float = {
          this.xBin.pop();  
       }
     }
+    //met à jour l'affichage
+   $('binaire').value = this.xBin.join('');
+    
+    if(this.xBin.join("") == 0 ||  this.xBin.reverse().join("") == 1){
+      this.casSpecialZero();
+      return 0;
+    }
+    
 
-    $('binaire').value = this.xBin.join('');
 
     this.xBin.reverse();
     
     this.setNbits(nbBits);
     let mReal = 0;
-    console.log(this.mSize);
     for (var i = 0; i < this.mSize; i++) {
       if(this.xBin[i] == 1){
-          console.log(mReal+" + 2^"+i);
           mReal+=Math.pow(2, i);
       }
     }
      
      mReal+=Math.pow(2, this.mSize);
-     console.log(mReal+"/2^"+this.mSize);
      mReal /= Math.pow(2, this.mSize);
      this.mReal = mReal;
-     console.log(mReal);
      
      /*calcule de l'exposant*/
-     console.log("Calcule de l'exposant");
      let e = 0;
      let j = 0;
      let eBin=[];
      for (var i = this.mSize; i < this.mSize+this.eSize; i++) {
        if(this.xBin[i] == 1){
          eBin.push(1);
-         console.log("e = "+e+" | e += 2^"+j);
          e+=Math.pow(2, j);
        }else{
          eBin.push(0);
@@ -225,19 +227,15 @@ var float = {
      }
      
      this.eBin = eBin.reverse().join('');
-     alert(this.eBin);
      
      if(this.checkCas()){
-       alert("lasflksadjf");
        return 0;
      }
-     alert("STOP");
      
-    console.log("e' = "+e); 
-    let a=0;
+    let a=0; 
     this.s =  this.xBin[this.xBin.length-1];
+    /*formule pour récuperer la valeur en décimal*/
     a = (-2*this.s+1) * mReal * Math.pow(2, e-this.eDecalage);
-    console.log(a);
     this.xDec = a;
     $('decimal').value = a;
     $('signe').value = (this.s == 1) ? 'négatif' : 'positif'; 
@@ -269,8 +267,9 @@ var $ = function(id){
 
 function decToBin(){
   if(this.checkNbBits($('nbBits'))){
-    //traiter le 
-    alert("Entrez une valeur entre 12 et 230");
+    //traiter le cas si il n'a pas rempli juste le nombre de bits
+    alert("Le nombre de bits doit être compris entre 12 et 130");
+    $('nbBits').value = 32;
   }else{
     var xDec = $('decimal');
     var nbBits = $('nbBits');
@@ -281,13 +280,15 @@ function decToBin(){
 }; 
 
 function binToDec(){
+  if(this.checkNbBits($('nbBits'))){
+    //traiter le 
+    alert("Le nombre de bits doit être compris entre 12 et 130");
+     $('nbBits').value = 32;
+  }else{
     var xBin = $('binaire');
     var nbBits = $('nbBits');
-    if(xBin.value == 0){
-      float.casSpecialZero();
-      return 0;
-    }
     float.binToDec(xBin.value, nbBits.value);
+ }
 }; 
 
 function checkNbBits(id){

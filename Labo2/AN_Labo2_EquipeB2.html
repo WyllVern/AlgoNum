@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>AN_Labo2_EquipeB2</title>
+    <script type="text/javascript">
+    var $ = function(id){
+      return document.getElementById(id);
+    };
+    function fun1(x){
+      return Math.sin(x)-(x/13);
+    }
+    function fun2(x){
+      return (x/(1-(x*x)));
+    }
+    function compute(){
+  /*
+  idée de base:
+  on va diviser l'intervale en petit intervale dans lequel on va chercher si la fonction
+  change de signe (théorême de Cauchy)
+  */
+
+      var a=-100;
+      var b=100;
+      var delta= 1*Math.pow(10,-5);
+      var step=0.1;
+      console.log(delta);
+      for (var i = a; i < b; i+=step) {
+        //idee: parcours chaque petit intervale.
+        var c =i;
+        var d=i+step;
+        //ajouter une condition pour verifier si la fct change de signe dans
+        //l'intervalle. si c'est le cas, appliquer la bissection
+        var fa=fun1(c);
+        var fb=fun1(d);
+        //appplication de la bissection
+        while (Math.abs(c-d)>delta) {
+          var m = (c+d)/2;
+          var fm=fun1(m);
+          if ((fm*fa)<=0) {
+            d=m;
+            fb=fm;
+          }
+          else {
+            c=m;
+            fa=fm;
+          }
+          console.log(m);
+        }
+        console.log("m affiché au final: "+m);
+      }
+      }
+      </script>
+  </head>
+  <body>
+  <button type="button" name="button" onclick="compute()">compute</button>
+  </body>
+</html>

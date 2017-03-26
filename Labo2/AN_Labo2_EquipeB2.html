@@ -26,6 +26,7 @@ Méthode choisie : par dichotomie
     -->
     <script src="scripts\plotly-latest.min.js"></script>
 
+    <!-- Notre script -->
     <script src="scripts\labo2.js"></script>
 
 </head>
@@ -33,21 +34,26 @@ Méthode choisie : par dichotomie
 <body>
     <h1>AN_Labo2_EquipeB2</h1>
     <form>
-        Choisissez la fonction<br>
+        <h2>Inputs</h2>
+        <h3>Choisissez la fonction</h3>
         <input type="radio" name="function" value="fun1" checked id=fun1>
         <label for="fun1"> sin(x) - x/13</label>
         <br>
         <input type="radio" name="function" value="fun2" id=fun2>
         <label for="fun1"> x / (1-x^2)</label>
-        <br> Appuyez pour calculer</br>
+        <h3>Appuyez pour calculer</h3>
         <button type="button" name="button" onclick="compute()">compute</button>
     </form>
 
-    <h2>Résultats</h2>
+    <h2>Outputs</h2>
     <h3>Racines</h3>
     <table id="racines"></table>
     <h3>Plot</h3>
     <div id="plot" style="width:900px;height:500px;"></div>
 </body>
+
+<footer>
+    <p>Team B2 : Dany Chea, Johnny Da Costa, Sylvain Renaud</p>
+</footer>
 
 </html>

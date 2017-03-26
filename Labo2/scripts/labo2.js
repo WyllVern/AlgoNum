@@ -25,14 +25,14 @@ function myFun(x) {
 
 function compute() {
     /*
-    idée de base:
-    on va diviser l'intervale en petit intervale dans lequel on va chercher si la fonction
+    Idée de base:
+    On va diviser l'intervalle en petites intervalles dans lequel on va chercher si la fonction
     change de signe (théorême de Cauchy)
     */
 
     var a = -100;
     var b = 100;
-    var delta = 1 * Math.pow(10, -5);
+    var delta = 1 / 1e5;
     var step = 0.1;
 
     console.log(delta);
@@ -46,18 +46,17 @@ function compute() {
 
 
     for (var i = a; i < b; i += step) {
-        // Idee: parcours chaque petit intervale.
+        // Idee: parcours chaque petit intervalles.
         var c = i;
         var d = i + step;
 
-        // Ajouter une condition pour verifier si la fct change de signe dans
-        // L'intervalle. si c'est le cas, appliquer la bissection
         var fa = myFun(c);
         var fb = myFun(d);
 
         traceX.push(c);
         traceY.push(fa);
 
+        // Si la fonction change de signe dans cette intervalles on applique la bissection
         if (fa * fb <= 0) {
 
             // Application de la bissection
@@ -74,17 +73,30 @@ function compute() {
                 //console.log(m);
             }
             console.log("m affiché au final: " + m);
-            roots.push(m);
+
+            // Check continuité
+            var delt10 = delta * 10;
+            //console.log(Math.round(m * (1 / (delta * 10))) / (1 / (delta * 10)));
+            //console.log(Math.round(m / (delta * 10)) * (delta * 10)); // Pas le même résultat ?
+
+            var mRound = Math.round(m * (1 / delt10)) / (1 / delt10);
+            var fmRound = myFun(mRound);
+
+            if (fmRound == Infinity || fmRound == -Infinity) {
+                //roots.push(fmRound);
+                console.log(m + " ~= " + mRound + " : n'est pas une racine mais une asymptote de f");
+                roots.push(m + " ~= " + mRound + " (asymptote)");
+            } else {
+                roots.push(m + " ~= " + mRound);
+            }
         }
     }
-
 
     // Affiche racines
     printRoot(roots);
 
     // Plot fonction
     plotFonction(traceX, traceY);
-
 }
 
 function plotFonction(traceX, traceY) {
@@ -95,13 +107,28 @@ function plotFonction(traceX, traceY) {
     var trace = {
         x: traceX,
         y: traceY,
-        type: 'scatter',
-    };
-    var layout = {
-        yaxis: {
-            autorange: false
+        type: 'scattergl',
+        line: {
+            color: 'rgb(255,140,0)',
+            width: 3
         }
     };
+
+    var layout = {
+        yaxis: {
+            autorange: true
+        }
+    };
+
+    // Optimisation de l'affichage pour fun2.
+    if ($('fun2').checked) {
+        layout = {
+            yaxis: {
+                range: [-0.1, 0.1],
+                //autorange: true
+            }
+        };
+    }
 
     Plotly.newPlot(DIVPLOT, [trace], layout);
 }
@@ -111,6 +138,6 @@ function printRoot(roots) {
     var tableRoots = $("racines");
     tableRoots.innerHTML = "";
     for (var i = 0; i < roots.length; i++) {
-        tableRoots.insertRow(i).insertCell(0).innerHTML += roots[i];
+        tableRoots.insertRow(i).insertCell(-1).innerHTML += roots[i];
     }
 }

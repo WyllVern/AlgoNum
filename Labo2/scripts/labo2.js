@@ -85,9 +85,9 @@ function compute() {
             if (fmRound == Infinity || fmRound == -Infinity) {
                 //roots.push(fmRound);
                 console.log(m + " ~= " + mRound + " : n'est pas une racine mais une asymptote de f");
-                roots.push(m + " ~= " + mRound + " (asymptote)");
+                roots.push(m + " ~= " + mRound + "; erreur : ± " + delta + "; asymptote, pas une racine");
             } else {
-                roots.push(m + " ~= " + mRound);
+                roots.push(m + " ~= " + mRound + "; erreur : ± " + delta);
             }
         }
     }

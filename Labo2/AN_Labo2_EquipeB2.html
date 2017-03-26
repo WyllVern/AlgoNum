@@ -1,58 +1,53 @@
+<!--
+AN_Labo2_EquipeB2.
+Méthode choisie : par dichotomie
+-->
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>AN_Labo2_EquipeB2</title>
-    <script type="text/javascript">
-    var $ = function(id){
-      return document.getElementById(id);
-    };
-    function fun1(x){
-      return Math.sin(x)-(x/13);
-    }
-    function fun2(x){
-      return (x/(1-(x*x)));
-    }
-    function compute(){
-  /*
-  idée de base:
-  on va diviser l'intervale en petit intervale dans lequel on va chercher si la fonction
-  change de signe (théorême de Cauchy)
-  */
-
-      var a=-100;
-      var b=100;
-      var delta= 1*Math.pow(10,-5);
-      var step=0.1;
-      console.log(delta);
-      for (var i = a; i < b; i+=step) {
-        //idee: parcours chaque petit intervale.
-        var c =i;
-        var d=i+step;
-        //ajouter une condition pour verifier si la fct change de signe dans
-        //l'intervalle. si c'est le cas, appliquer la bissection
-        var fa=fun1(c);
-        var fb=fun1(d);
-        //appplication de la bissection
-        while (Math.abs(c-d)>delta) {
-          var m = (c+d)/2;
-          var fm=fun1(m);
-          if ((fm*fa)<=0) {
-            d=m;
-            fb=fm;
-          }
-          else {
-            c=m;
-            fa=fm;
-          }
-          console.log(m);
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
         }
-        console.log("m affiché au final: "+m);
-      }
-      }
-      </script>
-  </head>
-  <body>
-  <button type="button" name="button" onclick="compute()">compute</button>
-  </body>
+    </style>
+
+    <!--
+    Plot library : plotly (https://plot.ly/javascript)
+
+    Version en ligne:
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    Version locale :
+    -->
+    <script src="scripts\plotly-latest.min.js"></script>
+
+    <script src="scripts\labo2.js"></script>
+
+</head>
+
+<body>
+    <h1>AN_Labo2_EquipeB2</h1>
+    <form>
+        Choisissez la fonction<br>
+        <input type="radio" name="function" value="fun1" checked id=fun1>
+        <label for="fun1"> sin(x) - x/13</label>
+        <br>
+        <input type="radio" name="function" value="fun2" id=fun2>
+        <label for="fun1"> x / (1-x^2)</label>
+        <br> Appuyez pour calculer</br>
+        <button type="button" name="button" onclick="compute()">compute</button>
+    </form>
+
+    <h2>Résultats</h2>
+    <h3>Racines</h3>
+    <table id="racines"></table>
+    <h3>Plot</h3>
+    <div id="plot" style="width:900px;height:500px;"></div>
+</body>
+
 </html>

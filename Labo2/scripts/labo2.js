@@ -3,7 +3,7 @@ AN_Labo2_EquipeB2.
 Méthode choisie : par dichotomie
 */
 
-/*variable globale pour gérer les info erreurs*/
+// variable globale pour gérer les infos et erreurs
 var ERROR = [];
 var INFO = [];
 var ROUND = [];
@@ -11,7 +11,6 @@ var ROUND = [];
 var $ = function(id) {
     return document.getElementById(id);
 };
-
 
 function fun1(x) {
     return Math.sin(x) - (x / 13);
@@ -34,8 +33,6 @@ function compute() {
     On va diviser l'intervalle en petites intervalles dans lequel on va chercher si la fonction
     change de signe (théorême de Cauchy)
     */
-    
-
 
     var a = -100;
     var b = 100;
@@ -51,9 +48,8 @@ function compute() {
     // Tableau des racines calculées
     var roots = [];
 
-
+    // Idée: parcours chaque petit intervalles.
     for (var i = a; i < b; i += step) {
-        // Idee: parcours chaque petit intervalles.
         var c = i;
         var d = i + step;
 
@@ -67,6 +63,7 @@ function compute() {
         if (fa * fb <= 0) {
 
             // Application de la bissection
+            var n = 0;
             while (Math.abs(c - d) > delta) {
                 var m = (c + d) / 2;
                 var fm = myFun(m);
@@ -77,6 +74,7 @@ function compute() {
                     c = m;
                     fa = fm;
                 }
+                n++;
                 //console.log(m);
             }
             console.log("m affiché au final: " + m);
@@ -91,17 +89,21 @@ function compute() {
 
             if (fmRound == Infinity || fmRound == -Infinity) {
                 //roots.push(fmRound);
-                console.log(m + " ~= " + mRound + " : n'est pas une racine mais une asymptote de f");
+                console.log(m + " ≈ " + mRound + " : n'est pas une racine mais une asymptote de f");
                 roots.push(m);
                 ROUND.push(mRound);
-                ERROR.push(delta);
+                //ERROR.push(delta);
                 INFO.push("<p><span class='badge badge-danger'>asymptote, is not a root</span></p>");
             } else {
                 roots.push(m);
                 ROUND.push(mRound);
-                ERROR.push(delta);
+                //ERROR.push(delta);
                 INFO.push("<p><span class='badge badge-success'>is a root</span><p>");
             }
+
+            // Calcul d'erreur : (b-a)/2^(n+1) ref:https://fr.wikipedia.org/wiki/M%C3%A9thode_de_dichotomie#Limite_de_la_m.C3.A9thode
+            ERROR.push(Math.abs((c-d))/Math.pow(2,n+1));
+
         }
     }
 
@@ -160,7 +162,7 @@ function printRoot(roots) {
         row.insertCell(4).innerHTML += INFO[i];
 
     }
-    
+
     /*on clear les tableaux */
     ERROR = [];
     INFO = [];

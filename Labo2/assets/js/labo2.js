@@ -3,11 +3,6 @@ AN_Labo2_EquipeB2.
 Méthode choisie : par dichotomie
 */
 
-/*variable globale pour gérer les info erreurs*/
-var ERROR = [];
-var INFO = [];
-var ROUND = [];
-
 var $ = function(id) {
     return document.getElementById(id);
 };
@@ -34,8 +29,6 @@ function compute() {
     On va diviser l'intervalle en petites intervalles dans lequel on va chercher si la fonction
     change de signe (théorême de Cauchy)
     */
-    
-
 
     var a = -100;
     var b = 100;
@@ -92,15 +85,9 @@ function compute() {
             if (fmRound == Infinity || fmRound == -Infinity) {
                 //roots.push(fmRound);
                 console.log(m + " ~= " + mRound + " : n'est pas une racine mais une asymptote de f");
-                roots.push(m);
-                ROUND.push(mRound);
-                ERROR.push(delta);
-                INFO.push("<p><span class='badge badge-danger'>asymptote, is not a root</span></p>");
+                roots.push(m + " ~= " + mRound + "; erreur : ± " + delta + "; asymptote, pas une racine");
             } else {
-                roots.push(m);
-                ROUND.push(mRound);
-                ERROR.push(delta);
-                INFO.push("<p><span class='badge badge-success'>is a root</span><p>");
+                roots.push(m + " ~= " + mRound + "; erreur : ± " + delta);
             }
         }
     }
@@ -148,21 +135,9 @@ function plotFonction(traceX, traceY) {
 
 function printRoot(roots) {
     //console.log(roots);
-    var tableRoots = $("tbody");
-    var row;
+    var tableRoots = $("racines");
     tableRoots.innerHTML = "";
     for (var i = 0; i < roots.length; i++) {
-        row = tableRoots.insertRow(i);
-        row.insertCell(0).innerHTML += i;
-        row.insertCell(1).innerHTML += roots[i];
-        row.insertCell(2).innerHTML += ROUND[i];
-        row.insertCell(3).innerHTML += ERROR[i];
-        row.insertCell(4).innerHTML += INFO[i];
-
+        tableRoots.insertRow(i).insertCell(-1).innerHTML += roots[i];
     }
-    
-    /*on clear les tableaux */
-    ERROR = [];
-    INFO = [];
-    ROUND = [];
 }

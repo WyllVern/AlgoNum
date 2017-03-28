@@ -1,5 +1,5 @@
 /*
-AN_Labo2_EquipeB2.
+AN_Labo2_EquipeB2
 Méthode choisie : par dichotomie
 */
 
@@ -101,8 +101,8 @@ function compute() {
                 INFO.push("<p><span class='badge badge-success'>is a root</span><p>");
             }
 
-            // Calcul d'erreur : (b-a)/2^(n+1) ref:https://fr.wikipedia.org/wiki/M%C3%A9thode_de_dichotomie#Limite_de_la_m.C3.A9thode
-            ERROR.push(Math.abs((c-d))/Math.pow(2,n+1));
+            // Calcul d'erreur : (b-a)/2^(n+1) ref: https://fr.wikipedia.org/wiki/M%C3%A9thode_de_dichotomie#Limite_de_la_m.C3.A9thode
+            ERROR.push(Math.abs((c - d)) / Math.pow(2, n + 1));
 
         }
     }

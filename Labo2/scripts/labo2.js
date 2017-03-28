@@ -50,13 +50,13 @@ function compute() {
 
     // Idée: parcours chaque petit intervalles.
     for (var i = a; i < b; i += step) {
-        var c = i;
-        var d = i + step;
+        var borneInf = i;
+        var borneSup = i + step;
 
-        var fa = myFun(c);
-        var fb = myFun(d);
+        var fa = myFun(borneInf);
+        var fb = myFun(borneSup);
 
-        traceX.push(c);
+        traceX.push(borneInf);
         traceY.push(fa);
 
         // Si la fonction change de signe dans cette intervalles on applique la bissection
@@ -64,14 +64,14 @@ function compute() {
 
             // Application de la bissection
             var n = 0;
-            while (Math.abs(c - d) > delta) {
-                var m = (c + d) / 2;
+            while (Math.abs(borneInf - borneSup) > delta) {
+                var m = (borneInf + borneSup) / 2;
                 var fm = myFun(m);
                 if ((fm * fa) <= 0) {
-                    d = m;
+                    borneSup = m;
                     fb = fm;
                 } else {
-                    c = m;
+                    borneInf = m;
                     fa = fm;
                 }
                 n++;
@@ -101,8 +101,8 @@ function compute() {
                 INFO.push("<p><span class='badge badge-success'>is a root</span><p>");
             }
 
-            // Calcul d'erreur : (b-a)/2^(n+1) ref: https://fr.wikipedia.org/wiki/M%C3%A9thode_de_dichotomie#Limite_de_la_m.C3.A9thode
-            ERROR.push(Math.abs((c - d)) / Math.pow(2, n + 1));
+            // Calcul d'erreur : (b-a)/2^(n+1) ref: https://fr.wikipedia.org/wiki/Méthode_de_dichotomie
+            ERROR.push(Math.abs((borneInf - borneSup)) / Math.pow(2, n + 1));
 
         }
     }

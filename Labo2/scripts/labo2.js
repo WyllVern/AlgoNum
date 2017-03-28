@@ -37,7 +37,7 @@ function compute() {
     var a = -100;
     var b = 100;
     var delta = 1 / 1e5;
-    var step = 0.01;
+    var step = 0.1;
 
     console.log(delta);
 

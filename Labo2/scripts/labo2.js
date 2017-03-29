@@ -139,7 +139,7 @@ function plotFonction(traceX, traceY) {
     if ($('fun2').checked) {
         layout = {
             yaxis: {
-                range: [-0.1, 0.1],
+                range: [-2, 2],
                 //autorange: true
             }
         };

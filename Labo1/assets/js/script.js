@@ -48,7 +48,7 @@ var float = {
         this.eDecimal = this.eDecalage = this.IEEEFormatBits[i].eMax;
         this.eSize = this.IEEEFormatBits[i].exponant;
         return 0;
-      }
+    }
     }
     /*
     calcule de la taille de l'exposant selon selon la norme IEEE 754-1985.

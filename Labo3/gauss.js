@@ -15,14 +15,10 @@ function array_fill(i, n, v) {
  * @param  array x vector
  * @return array x solution vector
  */
-function gauss(A, x) {
+function gauss(A) {
 
     var i, k, j;
 
-    // Just make a single matrix
-    for (i=0; i < A.length; i++) { 
-        A[i].push(x[i]);
-    }
     var n = A.length;
 
     for (i=0; i < n; i++) { 

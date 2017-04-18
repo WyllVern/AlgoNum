@@ -1,0 +1,88 @@
+
+<!--
+AN Labo2 EquipeB2
+© 2017 by Dany Chea, Johnny Da Costa, Sylvain Renaud.
+All rights reserved.
+-->
+
+<html lang="ch-fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>AN_Labo2_EquipeB2</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">Team B2</a>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Labo 3 <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br/>
+    <div class="container">
+        <!-- MAIN -->
+        <div class="row">
+            <div class="col">
+                <h1 class = "display-4 text-center">Algorithmes Numériques</h1>
+                <p class="lead text-center">Laboratoire n°3</p>
+                <p class="text-center">Résolution d'un système linéaire avec la méthode de Gauss</p>
+                <p class="text-center">AN Labo2 EquipeB2</p>
+            </div>
+        </div>
+        <br><br>
+        <div id="saisie">
+            <h2>Mode d'emploi</h2>
+            <h3>Ajout de nouvelles matrices personalisées:</h3>
+            <p>Afin de pouvoir utiliser cet outil avec des matrices personalisées, il est indispensable que les fichiers de matrices soient déposés dans le dossier "json" situé dans le même répertoire que cette page.</p>
+            <p>De plus, le fichier de matrice doit être au format 'json', carrée et organisé de la manière suivante :</p>
+            <p>Avec pour <b>n</b> le nombre d'éléments de la matrice carrée. </p>
+            <p>Pour <b>A</b>, la matrice avec le bon nombre d'éléments, par rapport au n donné.</p>
+            <p>Pour <b>B</b>, le vecteur solution.</p>
+            <p><em>Exemple: </em></p>
+            <p>{"n": [3],
+            "A": [3.0,4.0,-1.0,1.0,-1.0,2.0,2.0,3.0,4.0],
+            "B": [23.0,3.0,7.0]}</p>
+            <h2>Résolveur</h2>
+            Sélectionnez le fichier de matrice: <input type="file" name="jsonFile" id="jsonFile">
+            <br><br>Appuyez sur le bouton pour résoudre la matrice: <button onclick="compute()">Résoudre matrice</button>
+            <p><b>Temps écoulé:</b> <div id="time"></div></p>
+            <p><b>Résultat:</b></p>
+            <p><div  id="result"></div></p>
+        </div>
+        <script src="gauss.js"></script>
+        <script src="example.js"></script>
+
+    </div><!-- /.container -->
+
+
+<footer class="footer">
+    <br>
+    <p class="text-muted" style="text-align : center">Algorithmes numériques</br>Dany Chea, Johnny Da Costa, Sylvain Renaud. </br></br> <kbd>LA TEAM B2</kbd></p>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<script src="https://npmcdn.com/bootstrap@4.0.0-alpha.5/dist/js/bootstrap.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+
+</script>
+</body></html>

@@ -31,87 +31,87 @@ function mycos(x)
 			var value = Math.pow(-1,i);
 			for(var j = 1; j <= 2*i; j++)
 			{
-					value *= x;
-					value /= (j < 2) ? 1 : j;
+				value *= x;
+				value /= (j < 2) ? 1 : j;
 			}
 			accu += value;
 			i++;
 			//au bout d'un moment, on n'ajoute plus rien
-	} while (value != 0)
-	return accu;
-}
+		} while (value != 0)
+		return accu;
+	}
 
 
-function derivate(x, h)
-{
-	let ret=0;
-	ret = (8.0*(mycos(x+(h/2.0))-mycos(x-(h/2.0))) - mycos(x+h) + mycos(x-h))/(6*h);
-	return ret;
-}
-function derivate2(x,h)
-{
-	let ret=0;
-	ret = (8.0*(derivate(x+(h/2.0),h)-derivate(x-(h/2.0),h)) - derivate(x+h,h) + derivate(x-h,h))/(6*h);
-	return ret;
-}
+	function derivate(x, h)
+	{
+		let ret=0;
+		ret = (8.0*(mycos(x+(h/2.0))-mycos(x-(h/2.0))) - mycos(x+h) + mycos(x-h))/(6*h);
+		return ret;
+	}
+	function derivate2(x,h)
+	{
+		let ret=0;
+		ret = (8.0*(derivate(x+(h/2.0),h)-derivate(x-(h/2.0),h)) - derivate(x+h,h) + derivate(x-h,h))/(6*h);
+		return ret;
+	}
 
-function compute()
-{
-	let h=0.001;
-	console.log("Cos(x)= ");
-	console.log(mycos(Math.PI*3));
-	console.log("Cos'(x)= ");
-	console.log(derivate(Math.PI*3,h));
-	console.log("Cos''(x)= ");
-	console.log(derivate2(Math.PI*3,h));
-	plot(h);
-}
+	function compute()
+	{
+		let h=0.001;
+		console.log("Cos(x)= ");
+		console.log(mycos(Math.PI*3));
+		console.log("Cos'(x)= ");
+		console.log(derivate(Math.PI*3,h));
+		console.log("Cos''(x)= ");
+		console.log(derivate2(Math.PI*3,h));
+		plot(h);
+	}
 
-function plotFonction(traceX, traceY, traceY1, traceY2) {
-    DIVPLOT = $('plot');
-    DIVPLOT.innerHTML = "";
+	function plotFonction(traceX, traceY, traceY1, traceY2) {
+		DIVPLOT = $('plot');
+		DIVPLOT.innerHTML = "";
 
     // Utilisation de l'API Plotly
     var trace = {
-        x: traceX,
-        y: traceY,
-				name: 'Cos(x)',
-        type: 'scattergl',
-        line: {
-            color: 'rgb(255,0,0)',
-            width: 3
-        }
+    	x: traceX,
+    	y: traceY,
+    	name: 'Cos(x)',
+    	type: 'scattergl',
+    	line: {
+    		color: 'rgb(255,0,0)',
+    		width: 3
+    	}
     };
 
-		var trace1 = {
-				x: traceX,
-				y: traceY1,
-				name: 'Cos\'(x)',
-				type: 'scattergl',
-				line: {
-						color: 'rgb(0,255,0)',
-						width: 3
-				}
-		};
+    var trace1 = {
+    	x: traceX,
+    	y: traceY1,
+    	name: 'Cos\'(x)',
+    	type: 'scattergl',
+    	line: {
+    		color: 'rgb(0,255,0)',
+    		width: 3
+    	}
+    };
 
-		var trace2 = {
-				x: traceX,
-				y: traceY2,
-				name: 'Cos"(x)',
-				type: 'scattergl',
-				line: {
-						color: 'rgb(0,0,255)',
-						width: 3
-				}
-		};
+    var trace2 = {
+    	x: traceX,
+    	y: traceY2,
+    	name: 'Cos"(x)',
+    	type: 'scattergl',
+    	line: {
+    		color: 'rgb(0,0,255)',
+    		width: 3
+    	}
+    };
 
     var layout = {
-        yaxis: {
-            autorange: true
-        },
-				title: 'Graphe de Cos(x) en série de Taylor et ses 2 premières dérivées'
+    	yaxis: {
+    		autorange: true
+    	},
+    	title: 'Graphe de Cos(x) en série de Taylor et ses 2 premières dérivées'
     };
-     Plotly.newPlot(DIVPLOT, [trace, trace1, trace2], layout);
+    Plotly.newPlot(DIVPLOT, [trace, trace1, trace2], layout);
 }
 function plot(h)
 {
@@ -120,19 +120,40 @@ function plot(h)
 	let y1= [];
 	let y2= [];
 	let step =0.2;
+	console.log("x, cos(x), cos'(x), cos\"(x)");
+	let index = 0;
 	for (var i = -2*Math.PI; i < 2*Math.PI; i+=step) {
 		y.push(mycos(i));
 		x.push(i);
 		y1.push(derivate(i,h));
 		y2.push(derivate2(i,h));
+		//console.log(x[x.length-1] + ", " + y[y.length-1] + ", " + y1[y1.length-1] + ", "+ y2[y2.length-1]);
+		console.log("cos(" + x[x.length-1] + ") = " + y[y.length-1]);
+		console.log("cos'(" + x[x.length-1] + ") = " + y1[y1.length-1]);
+		console.log("cos\"(" + x[x.length-1] + ") = " + y2[y2.length-1]);
+		console.log("-----------");
+		addtableau(x[x.length-1], y[y.length-1], y1[y1.length-1], y2[y2.length-1], index);
+		index++;
 
 	}
+	/*
 	console.log(x);
 	console.log("Cos(x): "+y);
 	console.log("Cos'(x): "+y1);
-	console.log("Cos\"(x): "+y2);
+	console.log("Cos\"(x): "+y2);*/
 	plotFonction(x,y, y1, y2);
 
 
 
+}
+
+function addtableau(x, y, y1, y2, i)
+{
+	var table = $("tbody");
+	var row;
+	row = table.insertRow(i);
+	row.insertCell(0).innerHTML += x;
+	row.insertCell(1).innerHTML += y;
+	row.insertCell(2).innerHTML += y1;
+	row.insertCell(3).innerHTML += y2;
 }

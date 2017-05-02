@@ -35,6 +35,7 @@ function fact(n)
 
 function mycos(x, nmax)
 {
+	// https://fr.wikipedia.org/wiki/Série_de_Taylor
 	let ret = 0;
 	var signe = -1;
 	for (var i = 0; i <= nmax; i++)

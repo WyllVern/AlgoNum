@@ -5,7 +5,7 @@ var $ = function(id) {
 
 
 // https://www.developpez.net/forums/d1282843/webmasters-developpement-web/javascript-ajax-typescript-dart/javascript/fonction-factoriel-d-nombre/
-function fact(n) 
+function fact(n)
 {
 	if(n<=1)
 		return 1;
@@ -14,6 +14,7 @@ function fact(n)
 	for(i = 2; i <= n; i++)
 	{
 		ret = ret*i;
+
 	}
 	return ret;
 	/*if(Math.round(n)==n){
@@ -30,23 +31,30 @@ function fact(n)
 	else {
 		return undefined;
 	}*/
-	
+
 }
 
-function mycos(x, nmax)
+function mycos(x)
 {
-	// https://fr.wikipedia.org/wiki/Série_de_Taylor
-	let ret = 0;
-	var signe = -1;
-	for (var i = 0; i <= nmax; i++)
+	var accu = 0;
+	var i = 0;
+	do
 	{
-		if(i%2==0)
-			signe
-		ret += ((Math.pow(-1, i)) / (fact(2*i))) * Math.pow(x, 2*i);
-	}
-
-	return ret;
+			//On ne veut pas sortir des limites du float, on fait donc notre calcul par itération moche.
+			//Si on faisait (-1)^i * x^2i / 2i!, on obtient de trop gros chiffres.
+			var value = Math.pow(-1,i);
+			for(var j = 1; j <= 2*i; j++)
+			{
+					value *= x;
+					value /= (j < 2) ? 1 : j;
+			}
+			accu += value;
+			i++;
+			//au bout d'un moment, on n'ajoute plus rien
+	} while (value != 0)
+	return accu;
 }
+
 
 function derivate(x, h, borne)
 {
@@ -59,9 +67,12 @@ function compute()
 {
 	let borne = 4;
 	//console.log(fact(10));
-	console.log(mycos(0, borne));
+	for (var i = 0; i < 10; i++) {
+			console.log("iteration "+i+" : "+mycos(i));
+	}
+
 	console.log(derivate(0, 0.001, borne));
-	
+
 /*
 	console.log((Math.pow(-1, 0)) / (fact(2*0)));
 	console.log(Math.pow(Math.PI, 2*0));

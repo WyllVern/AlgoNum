@@ -97,7 +97,9 @@ function compute() {
                 document.getElementById("time").innerHTML = timeElapsed+" ms";
 
             } else {
-                error = "Veuillez insérer une matrice non vide";
+                document.getElementById("result").innerHTML = "Veuillez insérer une matrice non vide";
+                document.getElementById("time").innerHTML = "";
+
             }
         }
     });

@@ -56,22 +56,38 @@ function mycos(x)
 }
 
 
-function derivate(x, h, borne)
+function derivate(x, h)
 {
 	let ret=0;
-	ret = (mycos(x+h,borne)-mycos(x-h,borne))/2*h;
+	ret = (8.0*(mycos(x+(h/2.0))-mycos(x-(h/2.0))) - mycos(x+h) + mycos(x-h))/(6*h);
+	return ret;
+}
+function derivate2(x,h)
+{
+	let ret=0;
+	ret = (8.0*(derivate(x+(h/2.0),h)-derivate(x-(h/2.0),h)) - derivate(x+h,h) + derivate(x-h,h))/(6*h);
 	return ret;
 }
 
 function compute()
 {
-	let borne = 4;
-	//console.log(fact(10));
-	for (var i = 0; i < 10; i++) {
-			console.log("iteration "+i+" : "+mycos(i));
-	}
+	let h=0.001;
+	console.log("Cos(x)= ");
+	console.log(mycos(Math.PI*3));
+	console.log("Cos'(x)= ");
+	console.log(derivate(Math.PI*3,h));
+	console.log("Cos''(x)= ");
+	console.log(derivate2(Math.PI*3,h));
 
-	console.log(derivate(0, 0.001, borne));
+
+	//console.log(fact(10));
+	// for (var i = 0; i < 10; i++) {
+	// 		//console.log("iteration "+i+" : "+mycos(i));
+	// 		console.log("iteration "+i);
+	// 			console.log(derivate(i, 0.001));
+
+
+
 
 /*
 	console.log((Math.pow(-1, 0)) / (fact(2*0)));
@@ -82,4 +98,6 @@ function compute()
 	console.log(Math.pow(Math.PI, 2*1));
 	console.log((Math.pow(-1, 1)) / (fact(2*1)) * Math.pow(Math.PI, 2*1));
 */
+
+
 }

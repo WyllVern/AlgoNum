@@ -17,20 +17,6 @@ function fact(n)
 
 	}
 	return ret;
-	/*if(Math.round(n)==n){
-		var i=1
-		var entree=n;
-		while(i<entree-1){
-			n= n+n*i;
-			i=i+1;
-		}
-		//console.log(n);
-		return n;
-	}
-
-	else {
-		return undefined;
-	}*/
 
 }
 
@@ -78,26 +64,75 @@ function compute()
 	console.log(derivate(Math.PI*3,h));
 	console.log("Cos''(x)= ");
 	console.log(derivate2(Math.PI*3,h));
+	plot(h);
+}
 
+function plotFonction(traceX, traceY, traceY1, traceY2) {
+    DIVPLOT = $('plot');
+    DIVPLOT.innerHTML = "";
 
-	//console.log(fact(10));
-	// for (var i = 0; i < 10; i++) {
-	// 		//console.log("iteration "+i+" : "+mycos(i));
-	// 		console.log("iteration "+i);
-	// 			console.log(derivate(i, 0.001));
+    // Utilisation de l'API Plotly
+    var trace = {
+        x: traceX,
+        y: traceY,
+				name: 'Cos(x)',
+        type: 'scattergl',
+        line: {
+            color: 'rgb(255,0,0)',
+            width: 3
+        }
+    };
 
+		var trace1 = {
+				x: traceX,
+				y: traceY1,
+				name: 'Cos\'(x)',
+				type: 'scattergl',
+				line: {
+						color: 'rgb(0,255,0)',
+						width: 3
+				}
+		};
 
+		var trace2 = {
+				x: traceX,
+				y: traceY2,
+				name: 'Cos"(x)',
+				type: 'scattergl',
+				line: {
+						color: 'rgb(0,0,255)',
+						width: 3
+				}
+		};
 
+    var layout = {
+        yaxis: {
+            autorange: true
+        },
+				title: 'Graphe de Cos(x) en série de Taylor et ses 2 premières dérivées'
+    };
+     Plotly.newPlot(DIVPLOT, [trace, trace1, trace2], layout);
+}
+function plot(h)
+{
+	let y= [];
+	let x=[];
+	let y1= [];
+	let y2= [];
+	let step =0.2;
+	for (var i = -2*Math.PI; i < 2*Math.PI; i+=step) {
+		y.push(mycos(i));
+		x.push(i);
+		y1.push(derivate(i,h));
+		y2.push(derivate2(i,h));
 
-/*
-	console.log((Math.pow(-1, 0)) / (fact(2*0)));
-	console.log(Math.pow(Math.PI, 2*0));
-	console.log((Math.pow(-1, 0)) / (fact(2*0)) * Math.pow(Math.PI, 2*0));
-	console.log("------");
-	console.log((Math.pow(-1, 1)) / (fact(2*1)));
-	console.log(Math.pow(Math.PI, 2*1));
-	console.log((Math.pow(-1, 1)) / (fact(2*1)) * Math.pow(Math.PI, 2*1));
-*/
+	}
+	console.log(x);
+	console.log("Cos(x): "+y);
+	console.log("Cos'(x): "+y1);
+	console.log("Cos\"(x): "+y2);
+	plotFonction(x,y, y1, y2);
+
 
 
 }

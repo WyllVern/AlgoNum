@@ -36,6 +36,7 @@ function mycos(x)
 		i++;
 	} while (value != 0);
 	return accu;
+
 }
 
 // cos'(x)

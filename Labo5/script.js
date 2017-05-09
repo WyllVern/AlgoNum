@@ -1,7 +1,7 @@
 function compute() {
-    // var a = 0;
-    // var b = 1;
-    // var h = (b - a) / 2;
+     var a = 0;
+     var b = 1;
+     var h = (b - a) / 2;
     // var wi = [5 / 9, 8 / 9, 5 / 9];
     // var xi = [-(1 / 5) * Math.sqrt(15), 0, (1 / 5) * Math.sqrt(15)];
     // var total = 0;
